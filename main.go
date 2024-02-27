@@ -78,11 +78,10 @@ func execute() {
 	o, _ := json.MarshalIndent(ordersByClass, "", "\t")
 	fmt.Println(string(o))
 
-	orderTotalsByClass := make(map[string]*OrderTotal)
-
 	SLICES_PER_PIZZA := conf.Pizza.SlicesPerPizza
 	EXTRA_CHEESE_SLICES := conf.Pizza.ExtraCheeseSlices
 
+	orderTotalsByClass := make(map[string]*OrderTotal)
 	orderTotals := OrderTotal{}
 
 	for classCode, orders := range ordersByClass {
@@ -104,32 +103,47 @@ func execute() {
 		orderTotalsByClass[classCode].CheeseSlices += EXTRA_CHEESE_SLICES
 
 		if orderTotalsByClass[classCode].CheeseSlices >= SLICES_PER_PIZZA {
-			orderTotalsByClass[classCode].CheesePizzas = int(math.Floor(float64(orderTotalsByClass[classCode].CheeseSlices) / float64(SLICES_PER_PIZZA)))
-			orderTotalsByClass[classCode].CheeseSlices = orderTotalsByClass[classCode].CheeseSlices - (orderTotalsByClass[classCode].CheesePizzas * SLICES_PER_PIZZA)
+			orderTotalsByClass[classCode].CheesePizzas, orderTotalsByClass[classCode].CheeseSlices = slicesToWholePizzas(orderTotalsByClass[classCode].CheeseSlices, SLICES_PER_PIZZA)
 		}
 
 		if orderTotalsByClass[classCode].PepperoniSlices >= SLICES_PER_PIZZA {
-			orderTotalsByClass[classCode].PepperoniPizzas = int(math.Floor(float64(orderTotalsByClass[classCode].PepperoniSlices) / float64(SLICES_PER_PIZZA)))
-			orderTotalsByClass[classCode].PepperoniSlices = orderTotalsByClass[classCode].PepperoniSlices - (orderTotalsByClass[classCode].PepperoniSlices * SLICES_PER_PIZZA)
+			orderTotalsByClass[classCode].PepperoniPizzas, orderTotalsByClass[classCode].PepperoniSlices = slicesToWholePizzas(orderTotalsByClass[classCode].PepperoniSlices, SLICES_PER_PIZZA)
 		}
 
 		if orderTotalsByClass[classCode].DairyFreeCheeseSlices >= SLICES_PER_PIZZA {
-			orderTotalsByClass[classCode].DairyFreeCheesePizzas = int(math.Floor(float64(orderTotalsByClass[classCode].DairyFreeCheeseSlices) / float64(SLICES_PER_PIZZA)))
-			orderTotalsByClass[classCode].DairyFreeCheeseSlices = orderTotalsByClass[classCode].DairyFreeCheeseSlices - (orderTotalsByClass[classCode].DairyFreeCheeseSlices * SLICES_PER_PIZZA)
+			orderTotalsByClass[classCode].DairyFreeCheesePizzas, orderTotalsByClass[classCode].DairyFreeCheeseSlices = slicesToWholePizzas(orderTotalsByClass[classCode].DairyFreeCheeseSlices, SLICES_PER_PIZZA)
 		}
 
 		if orderTotalsByClass[classCode].GlutenFreeCheeseSlices >= SLICES_PER_PIZZA {
-			orderTotalsByClass[classCode].GlutenFreeCheesePizzas = int(math.Floor(float64(orderTotalsByClass[classCode].GlutenFreeCheeseSlices) / float64(SLICES_PER_PIZZA)))
-			orderTotalsByClass[classCode].GlutenFreeCheeseSlices = orderTotalsByClass[classCode].GlutenFreeCheeseSlices - (orderTotalsByClass[classCode].GlutenFreeCheeseSlices * SLICES_PER_PIZZA)
+			orderTotalsByClass[classCode].GlutenFreeCheesePizzas, orderTotalsByClass[classCode].GlutenFreeCheeseSlices = slicesToWholePizzas(orderTotalsByClass[classCode].GlutenFreeCheeseSlices, SLICES_PER_PIZZA)
 		}
 	}
 
 	otc, _ := json.MarshalIndent(orderTotalsByClass, "", "\t")
 	fmt.Println(string(otc))
 
+	orderTotals.CheesePizzas = pizzasToOrder(orderTotals.CheeseSlices, SLICES_PER_PIZZA)
+	orderTotals.PepperoniPizzas = pizzasToOrder(orderTotals.PepperoniSlices, SLICES_PER_PIZZA)
+	orderTotals.DairyFreeCheesePizzas = pizzasToOrder(orderTotals.DairyFreeCheeseSlices, SLICES_PER_PIZZA)
+	orderTotals.GlutenFreeCheesePizzas = pizzasToOrder(orderTotals.GlutenFreeCheeseSlices, SLICES_PER_PIZZA)
+
 	ot, _ := json.MarshalIndent(orderTotals, "", "\t")
 	fmt.Println(string(ot))
+}
 
+func slicesToWholePizzas(slices int, slicesPerPizza int) (pizzas int, remainingSlices int) {
+	pizzas = int(math.Floor(float64(slices) / float64(slicesPerPizza)))
+	remainingSlices = slices - (pizzas * slicesPerPizza)
+	return pizzas, remainingSlices
+}
+
+func pizzasToOrder(slices int, slicesPerPizza int) int {
+	if slices >= 1 {
+		pizzasToOrder := math.Max(float64(slices), float64(slicesPerPizza)) / float64(slicesPerPizza)
+		pizzasToOrder = math.Ceil(pizzasToOrder)
+		return int(pizzasToOrder)
+	}
+	return 0
 }
 
 func parseOrder(orderStr string) Order {
