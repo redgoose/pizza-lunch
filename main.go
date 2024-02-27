@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -79,6 +80,11 @@ func execute() {
 
 	orderTotalsByClass := make(map[string]*OrderTotal)
 
+	SLICES_PER_PIZZA := conf.Pizza.SlicesPerPizza
+	EXTRA_CHEESE_SLICES := conf.Pizza.ExtraCheeseSlices
+
+	orderTotals := OrderTotal{}
+
 	for classCode, orders := range ordersByClass {
 		orderTotalsByClass[classCode] = &OrderTotal{}
 		for _, order := range orders {
@@ -87,14 +93,43 @@ func execute() {
 			orderTotalsByClass[classCode].DairyFreeCheeseSlices += order.DairyFreeCheeseSlices
 			orderTotalsByClass[classCode].GlutenFreeCheeseSlices += order.GlutenFreeCheeseSlices
 			orderTotalsByClass[classCode].Drinks += order.Drinks
+
+			orderTotals.CheeseSlices += order.CheeseSlices
+			orderTotals.PepperoniSlices += order.PepperoniSlices
+			orderTotals.DairyFreeCheeseSlices += order.DairyFreeCheeseSlices
+			orderTotals.GlutenFreeCheeseSlices += order.GlutenFreeCheeseSlices
+			orderTotals.Drinks += order.Drinks
 		}
 
-		// orderTotalsByClass[classCode].CheesePizzas = orderTotalsByClass[classCode].CheeseSlices \ 8
+		orderTotalsByClass[classCode].CheeseSlices += EXTRA_CHEESE_SLICES
 
+		if orderTotalsByClass[classCode].CheeseSlices >= SLICES_PER_PIZZA {
+			orderTotalsByClass[classCode].CheesePizzas = int(math.Floor(float64(orderTotalsByClass[classCode].CheeseSlices) / float64(SLICES_PER_PIZZA)))
+			orderTotalsByClass[classCode].CheeseSlices = orderTotalsByClass[classCode].CheeseSlices - (orderTotalsByClass[classCode].CheesePizzas * SLICES_PER_PIZZA)
+		}
+
+		if orderTotalsByClass[classCode].PepperoniSlices >= SLICES_PER_PIZZA {
+			orderTotalsByClass[classCode].PepperoniPizzas = int(math.Floor(float64(orderTotalsByClass[classCode].PepperoniSlices) / float64(SLICES_PER_PIZZA)))
+			orderTotalsByClass[classCode].PepperoniSlices = orderTotalsByClass[classCode].PepperoniSlices - (orderTotalsByClass[classCode].PepperoniSlices * SLICES_PER_PIZZA)
+		}
+
+		if orderTotalsByClass[classCode].DairyFreeCheeseSlices >= SLICES_PER_PIZZA {
+			orderTotalsByClass[classCode].DairyFreeCheesePizzas = int(math.Floor(float64(orderTotalsByClass[classCode].DairyFreeCheeseSlices) / float64(SLICES_PER_PIZZA)))
+			orderTotalsByClass[classCode].DairyFreeCheeseSlices = orderTotalsByClass[classCode].DairyFreeCheeseSlices - (orderTotalsByClass[classCode].DairyFreeCheeseSlices * SLICES_PER_PIZZA)
+		}
+
+		if orderTotalsByClass[classCode].GlutenFreeCheeseSlices >= SLICES_PER_PIZZA {
+			orderTotalsByClass[classCode].GlutenFreeCheesePizzas = int(math.Floor(float64(orderTotalsByClass[classCode].GlutenFreeCheeseSlices) / float64(SLICES_PER_PIZZA)))
+			orderTotalsByClass[classCode].GlutenFreeCheeseSlices = orderTotalsByClass[classCode].GlutenFreeCheeseSlices - (orderTotalsByClass[classCode].GlutenFreeCheeseSlices * SLICES_PER_PIZZA)
+		}
 	}
 
-	ot, _ := json.MarshalIndent(orderTotalsByClass, "", "\t")
+	otc, _ := json.MarshalIndent(orderTotalsByClass, "", "\t")
+	fmt.Println(string(otc))
+
+	ot, _ := json.MarshalIndent(orderTotals, "", "\t")
 	fmt.Println(string(ot))
+
 }
 
 func parseOrder(orderStr string) Order {
@@ -134,14 +169,21 @@ func parseOrder(orderStr string) Order {
 }
 
 type config struct {
-	File           file    `yaml:"file"`
-	SlicesPerPizza int     `yaml:"slicesPerPizza"`
-	Classes        []class `yaml:"classes"`
+	File    file    `yaml:"file"`
+	Pizza   pizza   `yaml:"pizza"`
+	Classes []class `yaml:"classes"`
 }
+
 type file struct {
 	Name      string `yaml:"name"`
 	SheetName string `yaml:"sheetName"`
 }
+
+type pizza struct {
+	SlicesPerPizza    int `yaml:"slicesPerPizza"`
+	ExtraCheeseSlices int `yaml:"extraCheeseSlices"`
+}
+
 type class struct {
 	Teacher string `yaml:"teacher"`
 	Room    string `yaml:"room"`
