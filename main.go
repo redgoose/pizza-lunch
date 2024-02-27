@@ -28,6 +28,7 @@ type OrderTotal struct {
 	PepperoniSlices        int
 	DairyFreeCheeseSlices  int
 	GlutenFreeCheeseSlices int
+	CheesePizzas           int
 	PepperoniPizzas        int
 	DairyFreeCheesePizzas  int
 	GlutenFreeCheesePizzas int
@@ -38,17 +39,17 @@ func main() {
 }
 
 func execute() {
-	conf, err := readConfig("classes.yml")
+	conf, err := readConfig("pizza-day.yml")
 	if err != nil {
 		panic(err)
 	}
 
-	classCodes := map[string]bool{}
+	validClassCodes := map[string]bool{}
 	for _, class := range conf.Classes {
-		classCodes[class.Code] = true
+		validClassCodes[class.Code] = true
 	}
 
-	processedRows, err := excel.ProcessFile("pizza.xlsx", "1. Pizza Lunch Original")
+	processedRows, err := excel.ProcessFile(conf.File.Name, conf.File.SheetName)
 	if err != nil {
 		panic(err)
 	}
@@ -62,7 +63,7 @@ func execute() {
 
 		// verify class codes
 		classCode := ""
-		if classCodes[row[3]] {
+		if validClassCodes[row[3]] {
 			classCode = row[3]
 		} else {
 			panic(fmt.Errorf("unknown class code encountered: %s", row[3]))
@@ -87,6 +88,9 @@ func execute() {
 			orderTotalsByClass[classCode].GlutenFreeCheeseSlices += order.GlutenFreeCheeseSlices
 			orderTotalsByClass[classCode].Drinks += order.Drinks
 		}
+
+		// orderTotalsByClass[classCode].CheesePizzas = orderTotalsByClass[classCode].CheeseSlices \ 8
+
 	}
 
 	ot, _ := json.MarshalIndent(orderTotalsByClass, "", "\t")
@@ -130,7 +134,13 @@ func parseOrder(orderStr string) Order {
 }
 
 type config struct {
-	Classes []class `yaml:"classes"`
+	File           file    `yaml:"file"`
+	SlicesPerPizza int     `yaml:"slicesPerPizza"`
+	Classes        []class `yaml:"classes"`
+}
+type file struct {
+	Name      string `yaml:"name"`
+	SheetName string `yaml:"sheetName"`
 }
 type class struct {
 	Teacher string `yaml:"teacher"`
