@@ -85,3 +85,87 @@ func TestPizzasToOrder(t *testing.T) {
 	pizzas = PizzasToOrder(slices, SLICES_PER_PIZZA)
 	assert.Equal(t, 0, pizzas)
 }
+
+func TestParseOrder(t *testing.T) {
+	orderStr := "1 Slices Cheese Pizza and Drink"
+	expectedOrder := Order{
+		Raw:                    orderStr,
+		CheeseSlices:           1,
+		PepperoniSlices:        0,
+		DairyFreeCheeseSlices:  0,
+		GlutenFreeCheeseSlices: 0,
+		Drinks:                 1,
+	}
+
+	order := ParseOrder(orderStr)
+	assert.Equal(t, expectedOrder, order)
+
+	orderStr = "3 Slices Pepperoni Pizza and Drink"
+	expectedOrder = Order{
+		Raw:                    orderStr,
+		CheeseSlices:           0,
+		PepperoniSlices:        3,
+		DairyFreeCheeseSlices:  0,
+		GlutenFreeCheeseSlices: 0,
+		Drinks:                 1,
+	}
+
+	order = ParseOrder(orderStr)
+	assert.Equal(t, expectedOrder, order)
+
+	orderStr = "2 Slices Dairy Free Cheese Pizza and Drink"
+	expectedOrder = Order{
+		Raw:                    orderStr,
+		CheeseSlices:           0,
+		PepperoniSlices:        0,
+		DairyFreeCheeseSlices:  2,
+		GlutenFreeCheeseSlices: 0,
+		Drinks:                 1,
+	}
+
+	order = ParseOrder(orderStr)
+	assert.Equal(t, expectedOrder, order)
+
+	orderStr = "3 Slices Cheese Gluten Free Pizza and Drink"
+	expectedOrder = Order{
+		Raw:                    orderStr,
+		CheeseSlices:           0,
+		PepperoniSlices:        0,
+		DairyFreeCheeseSlices:  0,
+		GlutenFreeCheeseSlices: 3,
+		Drinks:                 1,
+	}
+
+	order = ParseOrder(orderStr)
+	assert.Equal(t, expectedOrder, order)
+
+	orderStr = "1 Slice Cheese Pizza and Drink, 1 Slice Pepperoni Pizza and Drink"
+	expectedOrder = Order{
+		Raw:                    orderStr,
+		CheeseSlices:           1,
+		PepperoniSlices:        1,
+		DairyFreeCheeseSlices:  0,
+		GlutenFreeCheeseSlices: 0,
+		Drinks:                 2,
+	}
+
+	order = ParseOrder(orderStr)
+	assert.Equal(t, expectedOrder, order)
+}
+
+func TestParseOrderPanics(t *testing.T) {
+	// test non number prefix
+	assertPanic(t, func() { ParseOrder("X Slices Cheese Pizza and Drink") })
+
+	// test non pizza slice type
+	assertPanic(t, func() { ParseOrder("2 foobar") })
+}
+
+func assertPanic(t *testing.T, f func()) {
+	defer func() {
+		if r := recover(); r == nil {
+			t.Errorf("The code did not panic")
+		}
+	}()
+	f()
+}
