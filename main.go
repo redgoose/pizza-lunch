@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"sort"
 
 	"github.com/redgoose/pizza-day/excel"
 	"github.com/redgoose/pizza-day/order"
@@ -21,10 +22,13 @@ func execute() {
 		panic(err)
 	}
 
-	validClassCodes := map[string]bool{}
-	for _, class := range conf.Classes {
-		validClassCodes[class.Code] = true
+	var roomInfo = make(map[string]room)
+	var roomNumbers = []string{}
+	for _, room := range conf.Rooms {
+		roomInfo[room.Code] = room
+		roomNumbers = append(roomNumbers, room.Room)
 	}
+	sort.Strings(roomNumbers)
 
 	processedRows, err := excel.ProcessFile(conf.File.Name, conf.File.SheetName)
 	if err != nil {
@@ -33,43 +37,45 @@ func execute() {
 
 	fmt.Println("Orders to process:", len(processedRows))
 
-	var ordersByClass = make(map[string][]order.Order)
+	var ordersByRoom = make(map[string][]order.Order)
 
 	for _, row := range processedRows {
 		// fmt.Println(row)
 
-		// verify class codes
+		// verify class code exists in config
 		classCode := ""
-		if validClassCodes[row[3]] {
+		if _, ok := roomInfo[row[3]]; ok {
 			classCode = row[3]
 		} else {
-			panic(fmt.Errorf("unknown class code encountered: %s", row[3]))
+			panic(fmt.Errorf("unexpected class code: %s", row[3]))
 		}
 
 		order := order.ParseOrder(row[11])
 		order.Name = row[1]
-		ordersByClass[classCode] = append(ordersByClass[classCode], order)
+
+		roomNumber := roomInfo[classCode].Room
+		ordersByRoom[roomNumber] = append(ordersByRoom[roomNumber], order)
 	}
 
-	o, _ := json.MarshalIndent(ordersByClass, "", "\t")
+	o, _ := json.MarshalIndent(ordersByRoom, "", "\t")
 	fmt.Println(string(o))
 
 	SLICES_PER_PIZZA := conf.Pizza.SlicesPerPizza
 	EXTRA_CHEESE_SLICES := conf.Pizza.ExtraCheeseSlices
 
-	orderTotalsByClass, orderTotals := order.GetOrderTotals(ordersByClass, SLICES_PER_PIZZA, EXTRA_CHEESE_SLICES)
+	orderTotalsByRoom, orderTotals := order.GetOrderTotals(ordersByRoom, SLICES_PER_PIZZA, EXTRA_CHEESE_SLICES)
 
-	otc, _ := json.MarshalIndent(orderTotalsByClass, "", "\t")
-	fmt.Println(string(otc))
+	otr, _ := json.MarshalIndent(orderTotalsByRoom, "", "\t")
+	fmt.Println(string(otr))
 
 	ot, _ := json.MarshalIndent(orderTotals, "", "\t")
 	fmt.Println(string(ot))
 }
 
 type config struct {
-	File    file    `yaml:"file"`
-	Pizza   pizza   `yaml:"pizza"`
-	Classes []class `yaml:"classes"`
+	File  file   `yaml:"file"`
+	Pizza pizza  `yaml:"pizza"`
+	Rooms []room `yaml:"rooms"`
 }
 
 type file struct {
@@ -82,7 +88,7 @@ type pizza struct {
 	ExtraCheeseSlices int `yaml:"extraCheeseSlices"`
 }
 
-type class struct {
+type room struct {
 	Teacher string `yaml:"teacher"`
 	Room    string `yaml:"room"`
 	Class   string `yaml:"class"`
