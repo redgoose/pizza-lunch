@@ -63,7 +63,8 @@ func execute() {
 	SLICES_PER_PIZZA := conf.Pizza.SlicesPerPizza
 	EXTRA_CHEESE_SLICES := conf.Pizza.ExtraCheeseSlices
 
-	orderTotalsByRoom, orderTotals := order.GetOrderTotals(ordersByRoom, SLICES_PER_PIZZA, EXTRA_CHEESE_SLICES)
+	orderTotalsByRoom := order.GetOrderTotalsByRoom(ordersByRoom, SLICES_PER_PIZZA, EXTRA_CHEESE_SLICES)
+	orderTotals := order.GetOrderTotals(ordersByRoom, SLICES_PER_PIZZA, EXTRA_CHEESE_SLICES)
 
 	otr, _ := json.MarshalIndent(orderTotalsByRoom, "", "\t")
 	fmt.Println(string(otr))
