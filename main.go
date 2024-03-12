@@ -9,6 +9,7 @@ import (
 
 	"github.com/redgoose/pizza-day/excel"
 	"github.com/redgoose/pizza-day/order"
+	"github.com/redgoose/pizza-day/pdf"
 	"gopkg.in/yaml.v3"
 )
 
@@ -66,11 +67,13 @@ func execute() {
 	orderTotalsByRoom := order.GetOrderTotalsByRoom(ordersByRoom, SLICES_PER_PIZZA, EXTRA_CHEESE_SLICES)
 	orderTotals := order.GetOrderTotals(ordersByRoom, SLICES_PER_PIZZA, EXTRA_CHEESE_SLICES)
 
-	otr, _ := json.MarshalIndent(orderTotalsByRoom, "", "\t")
-	fmt.Println(string(otr))
+	// otr, _ := json.MarshalIndent(orderTotalsByRoom, "", "\t")
+	// fmt.Println(string(otr))
 
-	ot, _ := json.MarshalIndent(orderTotals, "", "\t")
-	fmt.Println(string(ot))
+	// ot, _ := json.MarshalIndent(orderTotals, "", "\t")
+	// fmt.Println(string(ot))
+
+	pdf.BuildPDF(roomNumbers, orderTotalsByRoom, orderTotals)
 }
 
 type config struct {
