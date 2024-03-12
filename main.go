@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"sort"
+	"strings"
 
 	"github.com/redgoose/pizza-day/excel"
 	"github.com/redgoose/pizza-day/order"
@@ -25,10 +26,16 @@ func execute() {
 
 	var roomInfo = make(map[string]room)
 	var roomNumbers = []string{}
+
 	for _, room := range conf.Rooms {
-		roomInfo[room.Code] = room
+		roomCodes := strings.Split(room.Code, "|")
+		for _, roomCode := range roomCodes {
+			roomInfo[roomCode] = room
+		}
+
 		roomNumbers = append(roomNumbers, room.Room)
 	}
+
 	sort.Strings(roomNumbers)
 
 	processedRows, err := excel.ProcessFile(conf.File.Name)
@@ -43,7 +50,7 @@ func execute() {
 	for _, row := range processedRows {
 		// fmt.Println(row)
 
-		// verify class code exists in config
+		// verify room code exists in config
 		roomCode := ""
 		if _, ok := roomInfo[row[3]]; ok {
 			roomCode = row[3]
