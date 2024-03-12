@@ -13,6 +13,11 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 
 	orderTotalsTable := func() {
 		pdf.AddPage()
+
+		pdf.SetFont("Arial", "B", 24)
+		pdf.Cell(50, 15, "Pizza Day "+time.Now().Format("2006-01-02"))
+		pdf.Ln(15)
+
 		pdf.SetFont("Arial", "B", 16)
 		pdf.Cell(50, 15, "Order Totals")
 		pdf.Ln(15)
