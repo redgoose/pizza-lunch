@@ -44,17 +44,17 @@ func execute() {
 		// fmt.Println(row)
 
 		// verify class code exists in config
-		classCode := ""
+		roomCode := ""
 		if _, ok := roomInfo[row[3]]; ok {
-			classCode = row[3]
+			roomCode = row[3]
 		} else {
-			panic(fmt.Errorf("unexpected class code: %s", row[3]))
+			panic(fmt.Errorf("unexpected room code: %s", row[3]))
 		}
 
 		order := order.ParseOrder(row[11])
 		order.Name = row[1]
 
-		roomNumber := roomInfo[classCode].Room
+		roomNumber := roomInfo[roomCode].Room
 		ordersByRoom[roomNumber] = append(ordersByRoom[roomNumber], order)
 	}
 
