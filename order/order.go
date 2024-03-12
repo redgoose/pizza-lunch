@@ -1,7 +1,7 @@
 package order
 
 import (
-	"errors"
+	"fmt"
 	"math"
 	"strconv"
 	"strings"
@@ -114,9 +114,15 @@ func ParseOrder(orderStr string) Order {
 
 	for _, order := range orders {
 
-		numSlices, err := strconv.Atoi(order[0:1])
-		if err != nil {
-			panic(err)
+		numSlices := 0
+		if strings.HasPrefix(order, "Additional") {
+			numSlices = 1
+		} else {
+			var err error
+			numSlices, err = strconv.Atoi(order[0:1])
+			if err != nil {
+				panic(fmt.Errorf("could not determine number of slices: %s", order))
+			}
 		}
 
 		if strings.Contains(order, "Dairy Free Cheese Pizza") {
@@ -128,10 +134,12 @@ func ParseOrder(orderStr string) Order {
 		} else if strings.Contains(order, "Pepperoni Pizza") {
 			parsedOrder.PepperoniSlices += numSlices
 		} else {
-			panic(errors.New("order could not be parsed"))
+			panic(fmt.Errorf("order could not be parsed: %s", order))
 		}
 
-		parsedOrder.Drinks++
+		if strings.Contains(order, "Drink") {
+			parsedOrder.Drinks++
+		}
 	}
 
 	return parsedOrder

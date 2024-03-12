@@ -151,6 +151,19 @@ func TestParseOrder(t *testing.T) {
 
 	order = ParseOrder(orderStr)
 	assert.Equal(t, expectedOrder, order)
+
+	orderStr = "Additional Cheese Pizza Slice Only, Additional Pepperoni Pizza Slice Only"
+	expectedOrder = Order{
+		Raw:                    orderStr,
+		CheeseSlices:           1,
+		PepperoniSlices:        1,
+		DairyFreeCheeseSlices:  0,
+		GlutenFreeCheeseSlices: 0,
+		Drinks:                 0,
+	}
+
+	order = ParseOrder(orderStr)
+	assert.Equal(t, expectedOrder, order)
 }
 
 func TestParseOrderPanics(t *testing.T) {
