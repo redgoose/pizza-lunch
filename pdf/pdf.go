@@ -30,7 +30,7 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 		pdf.SetLineWidth(.3)
 		pdf.SetFont("", "B", 14)
 
-		// 	Header
+		// Header
 		w := []float64{35, 45, 45}
 
 		wSum := 0.0
@@ -135,8 +135,8 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 		pdf.SetLineWidth(.3)
 		pdf.SetFont("", "B", 8)
 
-		// 	Header
-		w := []float64{15, 15, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25}
+		// Header
+		w := []float64{12, 12, 23, 23, 25, 25, 25, 25, 30, 30, 25, 25}
 
 		wSum := 0.0
 		for _, v := range w {
@@ -155,7 +155,7 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 		pdf.SetTextColor(0, 0, 0)
 		pdf.SetFont("", "", 0)
 
-		// 	Data
+		// Data
 		fill := false
 		for _, roomNumber := range roomNumbers {
 
