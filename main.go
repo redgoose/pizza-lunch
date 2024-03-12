@@ -65,8 +65,8 @@ func execute() {
 		ordersByRoom[roomNumber] = append(ordersByRoom[roomNumber], order)
 	}
 
-	o, _ := json.MarshalIndent(ordersByRoom, "", "\t")
-	fmt.Println(string(o))
+	// o, _ := json.MarshalIndent(ordersByRoom, "", "\t")
+	// fmt.Println(string(o))
 
 	SLICES_PER_PIZZA := conf.Pizza.SlicesPerPizza
 	EXTRA_CHEESE_SLICES := conf.Pizza.ExtraCheeseSlices
