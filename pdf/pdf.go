@@ -53,8 +53,13 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 		// 	Data
 		fill := false
 
+		cheeseTxt := strconv.Itoa(orderTotals.CheeseSlices)
+		if orderTotals.ExtraCheeseSlices > 0 {
+			cheeseTxt += " (" + strconv.Itoa(orderTotals.ExtraCheeseSlices) + " extra)"
+		}
+
 		pdf.CellFormat(w[0], cellHeight, "Cheese", "LR", 0, "C", fill, 0, "")
-		pdf.CellFormat(w[1], cellHeight, strconv.Itoa(orderTotals.CheeseSlices), "LR", 0, "C", fill, 0, "")
+		pdf.CellFormat(w[1], cellHeight, cheeseTxt, "LR", 0, "C", fill, 0, "")
 		pdf.CellFormat(w[2], cellHeight, strconv.Itoa(orderTotals.CheesePizzas), "LR", 0, "C", fill, 0, "")
 		pdf.Ln(-1)
 		fill = !fill

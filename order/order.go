@@ -21,6 +21,7 @@ type Order struct {
 type OrderTotal struct {
 	Drinks                    int
 	CheeseSlices              int
+	ExtraCheeseSlices         int
 	PepperoniSlices           int
 	DairyFreeCheeseSlices     int
 	GlutenFreeCheeseSlices    int
@@ -85,6 +86,7 @@ func GetOrderTotals(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int, EXTRA
 			orderTotals.Drinks += order.Drinks
 		}
 		orderTotals.CheeseSlices += EXTRA_CHEESE_SLICES
+		orderTotals.ExtraCheeseSlices += EXTRA_CHEESE_SLICES // keep count for pdf
 	}
 
 	orderTotals.CheesePizzas = PizzasToOrder(orderTotals.CheeseSlices, SLICES_PER_PIZZA)
