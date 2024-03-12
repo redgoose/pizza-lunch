@@ -1,6 +1,5 @@
 file:
   name: pizza.xlsx
-  sheetName: 1. Pizza Lunch Original
 pizza:
   slicesPerPizza: 8
   extraCheeseSlices: 0 # number of extra cheese slices to order per room

@@ -31,7 +31,7 @@ func execute() {
 	}
 	sort.Strings(roomNumbers)
 
-	processedRows, err := excel.ProcessFile(conf.File.Name, conf.File.SheetName)
+	processedRows, err := excel.ProcessFile(conf.File.Name)
 	if err != nil {
 		panic(err)
 	}
@@ -83,8 +83,7 @@ type config struct {
 }
 
 type file struct {
-	Name      string `yaml:"name"`
-	SheetName string `yaml:"sheetName"`
+	Name string `yaml:"name"`
 }
 
 type pizza struct {

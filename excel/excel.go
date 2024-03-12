@@ -7,18 +7,19 @@ import (
 	"github.com/xuri/excelize/v2"
 )
 
-func ProcessFile(fileName string, sheetName string) ([][]string, error) {
+func ProcessFile(fileName string) ([][]string, error) {
 	processedRows := [][]string{}
 
 	f, err := excelize.OpenFile(fileName)
 	if err != nil {
-		fmt.Println(err)
 		return nil, fmt.Errorf("failed to open file: %s", fileName)
 	}
-	rows, err := f.GetRows(sheetName)
+
+	firstSheet := f.WorkBook.Sheets.Sheet[0].Name
+
+	rows, err := f.GetRows(firstSheet)
 	if err != nil {
-		fmt.Println(err)
-		return nil, fmt.Errorf("failed to find sheet: %s", sheetName)
+		return nil, fmt.Errorf("failed to get rows")
 	}
 
 	re := regexp.MustCompile(`^\d+$`)
