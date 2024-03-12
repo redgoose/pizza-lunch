@@ -70,13 +70,19 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 		pdf.Ln(-1)
 		fill = !fill
 
-		pdf.CellFormat(w[0], cellHeight, "GF cheese", "LR", 0, "C", fill, 0, "")
+		pdf.CellFormat(w[0], cellHeight, "GF Cheese", "LR", 0, "C", fill, 0, "")
 		pdf.CellFormat(w[1], cellHeight, strconv.Itoa(orderTotals.GlutenFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
 		pdf.CellFormat(w[2], cellHeight, strconv.Itoa(orderTotals.GlutenFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
 		pdf.Ln(-1)
 		fill = !fill
 
-		pdf.CellFormat(w[0], cellHeight, "DF cheese", "LR", 0, "C", fill, 0, "")
+		pdf.CellFormat(w[0], cellHeight, "GF Pepperoni", "LR", 0, "C", fill, 0, "")
+		pdf.CellFormat(w[1], cellHeight, strconv.Itoa(orderTotals.GlutenFreePepperoniSlices), "LR", 0, "C", fill, 0, "")
+		pdf.CellFormat(w[2], cellHeight, strconv.Itoa(orderTotals.GlutenFreePepperoniPizzas), "LR", 0, "C", fill, 0, "")
+		pdf.Ln(-1)
+		fill = !fill
+
+		pdf.CellFormat(w[0], cellHeight, "DF Cheese", "LR", 0, "C", fill, 0, "")
 		pdf.CellFormat(w[1], cellHeight, strconv.Itoa(orderTotals.DairyFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
 		pdf.CellFormat(w[2], cellHeight, strconv.Itoa(orderTotals.DairyFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
 		pdf.Ln(-1)
@@ -114,10 +120,12 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 			"Cheese slices",
 			"Pepperoni pizzas",
 			"Pepperoni slices",
-			"GF cheese pizzas",
-			"GF cheese slices",
-			"DF cheese pizzas",
-			"DF cheese slices",
+			"GF Cheese pizzas",
+			"GF Cheese slices",
+			"GF Pepperoni pizzas",
+			"GF Pepperoni slices",
+			"DF Cheese pizzas",
+			"DF Cheese slices",
 		}
 
 		// Colors, line width and bold font
@@ -128,7 +136,7 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 		pdf.SetFont("", "B", 8)
 
 		// 	Header
-		w := []float64{15, 15, 25, 25, 25, 25, 25, 25, 25, 25}
+		w := []float64{15, 15, 25, 25, 25, 25, 25, 25, 25, 25, 25, 25}
 
 		wSum := 0.0
 		for _, v := range w {
@@ -164,8 +172,10 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 			pdf.CellFormat(w[5], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].PepperoniSlices), "LR", 0, "C", fill, 0, "")
 			pdf.CellFormat(w[6], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
 			pdf.CellFormat(w[7], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[8], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].DairyFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[9], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].DairyFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[8], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreePepperoniPizzas), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[9], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[10], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].DairyFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[11], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].DairyFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
 			pdf.Ln(-1)
 			fill = !fill
 		}
