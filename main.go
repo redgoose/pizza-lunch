@@ -43,7 +43,7 @@ func execute() {
 		panic(err)
 	}
 
-	fmt.Println("Orders to process:", len(processedRows))
+	fmt.Printf("Processing %d orders...\n", len(processedRows))
 
 	var ordersByRoom = make(map[string][]order.Order)
 
@@ -81,6 +81,7 @@ func execute() {
 	// fmt.Println(string(ot))
 
 	pdf.BuildPDF(roomNumbers, orderTotalsByRoom, orderTotals)
+	fmt.Println("PDF created :)")
 }
 
 type config struct {
