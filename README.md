@@ -8,7 +8,7 @@ This app takes an exported Excel document from [TDSB's SchoolCash Online](https:
 
 [View a sample PDF](https://github.com/redgoose/pizza-day/raw/main/docs/resources/pizza_day.pdf)
 
-If school council had our way we would integrate directly with SchoolCash Online, but lack access since we are not school staff. Instead an Excel document is shared with us in this [format](https://github.com/redgoose/pizza-day/raw/main/docs/resources/pizza_day.xlsx).
+If school council had our way we would integrate directly with SchoolCash Online, but we lack access since we are not school staff. Instead, an Excel document is shared with us in this [format](https://github.com/redgoose/pizza-day/raw/main/docs/resources/pizza_day.xlsx).
 
 ## Quick start
 
