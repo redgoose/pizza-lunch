@@ -74,9 +74,13 @@ func execute() {
 	// otr, _ := json.MarshalIndent(orderTotalsByRoom, "", "\t")
 	// fmt.Println(string(otr))
 
+	// for _, roomNumber := range roomNumbers {
+	// 	fmt.Println(roomNumber, "\t", orderTotalsByRoom[roomNumber].CheesePizzas*8+orderTotalsByRoom[roomNumber].CheeseSlices-2)
+	// }
+
 	// ot, _ := json.MarshalIndent(orderTotals, "", "\t")
 	// fmt.Println(string(ot))
 
-	pdf.BuildPDF(roomNumbers, orderTotalsByRoom, orderTotals)
+	pdf.BuildPDF(roomNumbers, roomInfo, ordersByRoom, orderTotalsByRoom, orderTotals)
 	fmt.Println("PDF created :)")
 }
