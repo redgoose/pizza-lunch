@@ -20,6 +20,6 @@
 # Go workspace file
 go.work
 
-*.xlsx
-*.pdf
+/*.xlsx
+/*.pdf
 pizza-day.yml
