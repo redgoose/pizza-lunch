@@ -1,5 +1,5 @@
 file:
-  name: pizza.xlsx
+  name: pizza_day.xlsx
 pizza:
   slicesPerPizza: 8
   extraCheeseSlices: 0 # number of extra cheese slices to order per room
