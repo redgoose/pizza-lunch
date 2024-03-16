@@ -18,7 +18,7 @@ If school council had our way we would integrate directly with SchoolCash Online
 	```
 	go install github.com/redgoose/pizza-day@latest
 	```
-3. Rename `pizza-day.sample.yml` to `pizza-day.yml` and modify the configuration to meet your needs. Place this file and the exported Excel file in the same directory as the `pizza-day` executable.
+3. Rename `pizza-day.sample.yml` to `pizza-day.yml` and modify the configuration to meet your needs. Place this file and the exported Excel document in the same directory as the `pizza-day` executable.
 4. Execute `pizza-day` which will then generate a PDF report.
 
 ## Testing
