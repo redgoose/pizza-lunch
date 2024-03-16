@@ -163,12 +163,6 @@ func BuildPDF(roomNumbers []string, orderTotalsByRoom map[string]*order.OrderTot
 		// Data
 		fill := false
 		for _, roomNumber := range roomNumbers {
-
-			if _, ok := orderTotalsByRoom[roomNumber]; ok {
-			} else {
-				continue
-			}
-
 			pdf.CellFormat(w[0], cellHeight, roomNumber, "LR", 0, "C", fill, 0, "")
 			pdf.CellFormat(w[1], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].Drinks), "LR", 0, "C", fill, 0, "")
 			pdf.CellFormat(w[2], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].CheesePizzas), "LR", 0, "C", fill, 0, "")
