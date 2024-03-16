@@ -2,7 +2,7 @@
 
 ## Overview
 
-This app takes an exported Excel document from [TDSB's SchoolCash Online](https://tdsb.schoolcashonline.com/) and generates user friendly reports forß ordering and distribution of pizza to hungry students on pizza day. It is used by school council members.
+This app takes an exported Excel document from [TDSB's SchoolCash Online](https://tdsb.schoolcashonline.com/) and generates user friendly reports for ordering and distribution of pizza to hungry students on pizza day. It is used by school council members.
 
 ![Sample PDF](docs/resources/pizza_day.png)
 
