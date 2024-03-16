@@ -26,7 +26,7 @@ If school council had our way we would integrate directly with SchoolCash Online
 Run all tests from the root folder by running:
 
 ```
-go test -v
+go test -v ./...
 ```
 
 ## License
