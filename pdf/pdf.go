@@ -3,14 +3,18 @@ package pdf
 import (
 	"strconv"
 	"strings"
-	"time"
 
 	"github.com/go-pdf/fpdf"
 	"github.com/redgoose/pizza-day/config"
 	"github.com/redgoose/pizza-day/order"
 )
 
-func BuildPDF(roomNumbers []string, roomInfo map[string]config.Room, ordersByRoom map[string][]order.Order, orderTotalsByRoom map[string]*order.OrderTotal, orderTotals order.OrderTotal) {
+func GeneratePDF(roomNumbers []string,
+	roomInfo map[string]config.Room,
+	ordersByRoom map[string][]order.Order,
+	orderTotalsByRoom map[string]*order.OrderTotal,
+	orderTotals order.OrderTotal,
+	fileName string) {
 	pdf := fpdf.New("P", "mm", "A4", "")
 
 	orderTotalsPage := func() {
@@ -321,7 +325,7 @@ func BuildPDF(roomNumbers []string, roomInfo map[string]config.Room, ordersByRoo
 		ordersForRoomPage(roomInfoByNumber, roomNumber)
 	}
 
-	fileName := "pizza_day_" + time.Now().Format("20060102") + ".pdf"
+	fileName = strings.Replace(fileName, ".xlsx", ".pdf", 1)
 	err := pdf.OutputFileAndClose(fileName)
 	if err != nil {
 		panic(err)

@@ -81,6 +81,6 @@ func execute() {
 	// ot, _ := json.MarshalIndent(orderTotals, "", "\t")
 	// fmt.Println(string(ot))
 
-	pdf.BuildPDF(roomNumbers, roomInfo, ordersByRoom, orderTotalsByRoom, orderTotals)
-	fmt.Println("PDF created :)")
+	pdf.GeneratePDF(roomNumbers, roomInfo, ordersByRoom, orderTotalsByRoom, orderTotals, conf.File.Name)
+	fmt.Println("PDF generated :)")
 }
