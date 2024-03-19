@@ -9,9 +9,10 @@ import (
 )
 
 type config struct {
-	File  File   `yaml:"file"`
-	Pizza Pizza  `yaml:"pizza"`
-	Rooms []Room `yaml:"rooms"`
+	File       File        `yaml:"file"`
+	Pizza      Pizza       `yaml:"pizza"`
+	Rooms      []Room      `yaml:"rooms"`
+	LateOrders []LateOrder `yaml:"lateOrders"`
 }
 
 type File struct {
@@ -28,6 +29,12 @@ type Room struct {
 	Room    string `yaml:"room"`
 	Class   string `yaml:"class"`
 	Code    string `yaml:"code"`
+}
+
+type LateOrder struct {
+	Name  string `yaml:"name"`
+	Room  string `yaml:"room"`
+	Order string `yaml:"order"`
 }
 
 func ReadConfig(configPath string) (config, error) {

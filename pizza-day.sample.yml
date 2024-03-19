@@ -3,6 +3,13 @@ file:
 pizza:
   slicesPerPizza: 8
   extraCheeseSlices: 0 # number of extra cheese slices to order per room
+lateOrders:
+  # - name: Saka, Bukayo
+  #   room: 21
+  #   order: 2 Slices Pepperoni Pizza and Drink
+  # - name: Rice, Declan
+  #   room: 03
+  #   order: 2 Slices Pepperoni Pizza and Drink
 rooms:
   - room: 01
     teacher: Smith, Bob

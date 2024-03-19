@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"slices"
 	"sort"
 	"strings"
 
@@ -59,6 +60,22 @@ func execute() {
 		order.Name = row[1]
 
 		roomNumber := roomInfo[roomCode].Room
+		ordersByRoom[roomNumber] = append(ordersByRoom[roomNumber], order)
+	}
+
+	fmt.Printf("Processing %d late orders...\n", len(conf.LateOrders))
+
+	for _, row := range conf.LateOrders {
+		order := order.ParseOrder(row.Order)
+		order.Name = row.Name
+
+		roomNumber := ""
+		if slices.Contains(roomNumbers, row.Room) {
+			roomNumber = row.Room
+		} else {
+			panic(fmt.Errorf("unexpected room number: %s", row.Room))
+		}
+
 		ordersByRoom[roomNumber] = append(ordersByRoom[roomNumber], order)
 	}
 
