@@ -125,8 +125,8 @@ func GeneratePDF(roomNumbers []string,
 		pdf.Ln(15)
 
 		header := []string{
-			"Room #",
-			"Drinks",
+			"Room #\n ",
+			"Drinks\n ",
 			"Cheese pizzas",
 			"Cheese slices",
 			"Pepperoni pizzas",
@@ -144,10 +144,10 @@ func GeneratePDF(roomNumbers []string,
 		pdf.SetTextColor(255, 255, 255)
 		pdf.SetDrawColor(0, 0, 0)
 		pdf.SetLineWidth(.3)
-		pdf.SetFont("", "B", 8)
+		pdf.SetFont("", "B", 10)
 
 		// Header
-		w := []float64{12, 12, 23, 23, 25, 25, 25, 25, 30, 30, 25, 25}
+		w := []float64{18, 18, 18, 18, 23, 23, 23, 23, 27, 27, 23, 23}
 
 		wSum := 0.0
 		for _, v := range w {
@@ -157,30 +157,34 @@ func GeneratePDF(roomNumbers []string,
 		cellHeight := 7.0
 
 		for j, str := range header {
-			pdf.CellFormat(w[j], cellHeight, str, "1", 0, "C", true, 0, "")
+			x, y := pdf.GetXY()
+			pdf.MultiCell(w[j], cellHeight, str, "1", "C", true)
+			pdf.SetXY(x+w[j], y)
 		}
 		pdf.Ln(-1)
+		x, y := pdf.GetXY()
+		pdf.SetXY(x, y+cellHeight)
 
 		// Color and font restoration
 		pdf.SetFillColor(224, 235, 255)
 		pdf.SetTextColor(0, 0, 0)
-		pdf.SetFont("", "", 0)
+		pdf.SetFont("", "", 12)
 
 		// Data
 		fill := false
 		for _, roomNumber := range roomNumbers {
 			pdf.CellFormat(w[0], cellHeight, roomNumber, "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[1], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].Drinks), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[2], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].CheesePizzas), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[3], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].CheeseSlices), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[4], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].PepperoniPizzas), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[5], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].PepperoniSlices), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[6], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[7], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[8], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreePepperoniPizzas), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[9], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[10], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].DairyFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
-			pdf.CellFormat(w[11], cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].DairyFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[1], cellHeight, removeZero(orderTotalsByRoom[roomNumber].Drinks), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[2], cellHeight, removeZero(orderTotalsByRoom[roomNumber].CheesePizzas), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[3], cellHeight, removeZero(orderTotalsByRoom[roomNumber].CheeseSlices), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[4], cellHeight, removeZero(orderTotalsByRoom[roomNumber].PepperoniPizzas), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[5], cellHeight, removeZero(orderTotalsByRoom[roomNumber].PepperoniSlices), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[6], cellHeight, removeZero(orderTotalsByRoom[roomNumber].GlutenFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[7], cellHeight, removeZero(orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[8], cellHeight, removeZero(orderTotalsByRoom[roomNumber].GlutenFreePepperoniPizzas), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[9], cellHeight, removeZero(orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[10], cellHeight, removeZero(orderTotalsByRoom[roomNumber].DairyFreeCheesePizzas), "LR", 0, "C", fill, 0, "")
+			pdf.CellFormat(w[11], cellHeight, removeZero(orderTotalsByRoom[roomNumber].DairyFreeCheeseSlices), "LR", 0, "C", fill, 0, "")
 			pdf.Ln(-1)
 			fill = !fill
 		}
@@ -330,4 +334,12 @@ func GeneratePDF(roomNumbers []string,
 	if err != nil {
 		panic(err)
 	}
+}
+
+func removeZero(n int) string {
+	s := strconv.Itoa(n)
+	if s == "0" {
+		s = ""
+	}
+	return s
 }
