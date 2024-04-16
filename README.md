@@ -1,4 +1,4 @@
-# Pizza day
+# Pizza day 🍕
 
 ## Overview
 

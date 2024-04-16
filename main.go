@@ -99,5 +99,5 @@ func execute() {
 	// fmt.Println(string(ot))
 
 	pdf.GeneratePDF(roomNumbers, roomInfo, ordersByRoom, orderTotalsByRoom, orderTotals, conf.File.Name)
-	fmt.Println("PDF generated :)")
+	fmt.Println("PDF generated 🍕")
 }
