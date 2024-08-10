@@ -56,6 +56,12 @@ func execute() {
 			panic(fmt.Errorf("unexpected room code: %s", row[3]))
 		}
 
+		// skip refunded orders
+		if row[8] == row[5] {
+			fmt.Printf("Skipping refunded order\n")
+			continue
+		}
+
 		order := order.ParseOrder(row[11])
 		order.Name = row[1]
 
