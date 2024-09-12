@@ -13,9 +13,7 @@ lateOrders:
 rooms:
   - room: 01
     teacher: Smith, Bob
-    class: FI 1/2
     code: FEIGR12A - Smith
   - room: P1
     teacher: White, Barbara
-    class: 5/6 A
     code: RGR56A - White

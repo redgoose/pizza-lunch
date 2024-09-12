@@ -27,7 +27,6 @@ type Pizza struct {
 type Room struct {
 	Teacher string `yaml:"teacher"`
 	Room    string `yaml:"room"`
-	Class   string `yaml:"class"`
 	Code    string `yaml:"code"`
 }
 
