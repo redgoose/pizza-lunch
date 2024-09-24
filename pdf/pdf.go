@@ -260,6 +260,7 @@ func GeneratePDF(roomNumbers []string,
 		pdf.CellFormat(35, cellHeight, "Pizza type", "1", 0, "C", true, 0, "")
 		pdf.CellFormat(25, cellHeight, "Pizzas", "1", 0, "C", true, 0, "")
 		pdf.CellFormat(25, cellHeight, "Slices", "1", 0, "C", true, 0, "")
+		x, y := pdf.GetXY() // save position for drinks table
 		pdf.Ln(-1)
 
 		// Color and font restoration
@@ -300,21 +301,27 @@ func GeneratePDF(roomNumbers []string,
 		pdf.CellFormat(85, 0, "", "T", 0, "", false, 0, "")
 		pdf.Ln(5)
 
-		// drinks table
+		// position drinks table beside previous table rather than below
+		x += 10
+		pdf.SetXY(x, y)
+
 		pdf.SetFillColor(255, 0, 0)
 		pdf.SetTextColor(255, 255, 255)
 		pdf.SetDrawColor(0, 0, 0)
 		pdf.SetLineWidth(.3)
 		pdf.SetFont("", "B", 12)
 		pdf.CellFormat(25, cellHeight, "Drinks", "1", 0, "C", true, 0, "")
-		pdf.Ln(-1)
 
+		y += cellHeight
+		pdf.SetXY(x, y)
 		pdf.SetTextColor(0, 0, 0)
 		pdf.SetFont("", "", 0)
 		pdf.CellFormat(25, cellHeight, strconv.Itoa(orderTotalsByRoom[roomNumber].Drinks), "LR", 0, "C", false, 0, "")
-		pdf.Ln(-1)
 
+		y += cellHeight
+		pdf.SetXY(x, y)
 		pdf.CellFormat(25, 0, "", "T", 0, "", false, 0, "")
+
 	}
 
 	var roomInfoByNumber = make(map[string]config.Room)
