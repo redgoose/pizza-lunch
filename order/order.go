@@ -33,7 +33,7 @@ type OrderTotal struct {
 	GlutenFreePepperoniPizzas int
 }
 
-func GetOrderTotalsByRoom(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int, EXTRA_CHEESE_SLICES int) map[string]*OrderTotal {
+func GetOrderTotalsByRoom(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int, SLICES_PER_GLUTEN_FREE_PIZZA int, EXTRA_CHEESE_SLICES int) map[string]*OrderTotal {
 	orderTotalsByRoom := make(map[string]*OrderTotal)
 
 	for roomNumber, orders := range ordersByRoom {
@@ -61,11 +61,11 @@ func GetOrderTotalsByRoom(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int,
 			orderTotalsByRoom[roomNumber].DairyFreeCheesePizzas, orderTotalsByRoom[roomNumber].DairyFreeCheeseSlices = SlicesToWholePizzas(orderTotalsByRoom[roomNumber].DairyFreeCheeseSlices, SLICES_PER_PIZZA)
 		}
 
-		if orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices >= SLICES_PER_PIZZA {
+		if orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices >= SLICES_PER_GLUTEN_FREE_PIZZA {
 			orderTotalsByRoom[roomNumber].GlutenFreeCheesePizzas, orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices = SlicesToWholePizzas(orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices, SLICES_PER_PIZZA)
 		}
 
-		if orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices >= SLICES_PER_PIZZA {
+		if orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices >= SLICES_PER_GLUTEN_FREE_PIZZA {
 			orderTotalsByRoom[roomNumber].GlutenFreePepperoniPizzas, orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices = SlicesToWholePizzas(orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices, SLICES_PER_PIZZA)
 		}
 	}
@@ -73,7 +73,7 @@ func GetOrderTotalsByRoom(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int,
 	return orderTotalsByRoom
 }
 
-func GetOrderTotals(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int, EXTRA_CHEESE_SLICES int) OrderTotal {
+func GetOrderTotals(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int, SLICES_PER_GLUTEN_FREE_PIZZA int, EXTRA_CHEESE_SLICES int) OrderTotal {
 	orderTotals := OrderTotal{}
 
 	for _, orders := range ordersByRoom {
@@ -92,8 +92,8 @@ func GetOrderTotals(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int, EXTRA
 	orderTotals.CheesePizzas = PizzasToOrder(orderTotals.CheeseSlices, SLICES_PER_PIZZA)
 	orderTotals.PepperoniPizzas = PizzasToOrder(orderTotals.PepperoniSlices, SLICES_PER_PIZZA)
 	orderTotals.DairyFreeCheesePizzas = PizzasToOrder(orderTotals.DairyFreeCheeseSlices, SLICES_PER_PIZZA)
-	orderTotals.GlutenFreeCheesePizzas = PizzasToOrder(orderTotals.GlutenFreeCheeseSlices, SLICES_PER_PIZZA)
-	orderTotals.GlutenFreePepperoniPizzas = PizzasToOrder(orderTotals.GlutenFreePepperoniSlices, SLICES_PER_PIZZA)
+	orderTotals.GlutenFreeCheesePizzas = PizzasToOrder(orderTotals.GlutenFreeCheeseSlices, SLICES_PER_GLUTEN_FREE_PIZZA)
+	orderTotals.GlutenFreePepperoniPizzas = PizzasToOrder(orderTotals.GlutenFreePepperoniSlices, SLICES_PER_GLUTEN_FREE_PIZZA)
 
 	return orderTotals
 }

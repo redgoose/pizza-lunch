@@ -2,6 +2,7 @@ file:
   name: pizza_day.xlsx
 pizza:
   slicesPerPizza: 8
+  slicesPerGlutenFreePizza: 6
   extraCheeseSlices: 0 # number of extra cheese slices to order per room
 lateOrders:
   # - name: Saka, Bukayo

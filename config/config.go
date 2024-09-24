@@ -20,8 +20,9 @@ type File struct {
 }
 
 type Pizza struct {
-	SlicesPerPizza    int `yaml:"slicesPerPizza"`
-	ExtraCheeseSlices int `yaml:"extraCheeseSlices"`
+	SlicesPerPizza           int `yaml:"slicesPerPizza"`
+	SlicesPerGlutenFreePizza int `yaml:"slicesPerGlutenFreePizza"`
+	ExtraCheeseSlices        int `yaml:"extraCheeseSlices"`
 }
 
 type Room struct {
