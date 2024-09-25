@@ -62,11 +62,11 @@ func GetOrderTotalsByRoom(ordersByRoom map[string][]Order, SLICES_PER_PIZZA int,
 		}
 
 		if orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices >= SLICES_PER_GLUTEN_FREE_PIZZA {
-			orderTotalsByRoom[roomNumber].GlutenFreeCheesePizzas, orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices = SlicesToWholePizzas(orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices, SLICES_PER_PIZZA)
+			orderTotalsByRoom[roomNumber].GlutenFreeCheesePizzas, orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices = SlicesToWholePizzas(orderTotalsByRoom[roomNumber].GlutenFreeCheeseSlices, SLICES_PER_GLUTEN_FREE_PIZZA)
 		}
 
 		if orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices >= SLICES_PER_GLUTEN_FREE_PIZZA {
-			orderTotalsByRoom[roomNumber].GlutenFreePepperoniPizzas, orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices = SlicesToWholePizzas(orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices, SLICES_PER_PIZZA)
+			orderTotalsByRoom[roomNumber].GlutenFreePepperoniPizzas, orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices = SlicesToWholePizzas(orderTotalsByRoom[roomNumber].GlutenFreePepperoniSlices, SLICES_PER_GLUTEN_FREE_PIZZA)
 		}
 	}
 
