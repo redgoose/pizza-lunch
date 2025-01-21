@@ -1,5 +1,5 @@
 file:
-  name: pizza_day.xlsx
+  name: pizza_lunch.xlsx
 pizza:
   slicesPerPizza: 8
   slicesPerGlutenFreePizza: 6

@@ -1,9 +1,10 @@
-module github.com/redgoose/pizza-day
+module github.com/redgoose/pizza-lunch
 
 go 1.20
 
 require (
 	github.com/go-pdf/fpdf v0.9.0
+	github.com/redgoose/pizza-day v0.0.0-20240925162226-ea773ac11f76
 	github.com/stretchr/testify v1.8.0
 	github.com/xuri/excelize/v2 v2.8.0
 	gopkg.in/yaml.v3 v3.0.1

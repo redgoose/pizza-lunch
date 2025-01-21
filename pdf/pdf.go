@@ -5,8 +5,8 @@ import (
 	"strings"
 
 	"github.com/go-pdf/fpdf"
-	"github.com/redgoose/pizza-day/config"
-	"github.com/redgoose/pizza-day/order"
+	"github.com/redgoose/pizza-lunch/config"
+	"github.com/redgoose/pizza-lunch/order"
 )
 
 func GeneratePDF(roomNumbers []string,
@@ -21,7 +21,7 @@ func GeneratePDF(roomNumbers []string,
 		pdf.AddPage()
 
 		pdf.SetFont("Arial", "B", 24)
-		pdf.Cell(50, 15, "Pizza day")
+		pdf.Cell(50, 15, "Pizza lunch")
 		pdf.Ln(15)
 
 		pdf.SetFont("Arial", "B", 16)
