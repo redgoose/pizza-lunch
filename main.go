@@ -6,10 +6,10 @@ import (
 	"sort"
 	"strings"
 
-	"github.com/redgoose/pizza-day/config"
-	"github.com/redgoose/pizza-day/excel"
-	"github.com/redgoose/pizza-day/order"
-	"github.com/redgoose/pizza-day/pdf"
+	"github.com/redgoose/pizza-lunch/config"
+	"github.com/redgoose/pizza-lunch/excel"
+	"github.com/redgoose/pizza-lunch/order"
+	"github.com/redgoose/pizza-lunch/pdf"
 )
 
 func main() {
@@ -17,7 +17,7 @@ func main() {
 }
 
 func execute() {
-	conf, err := config.ReadConfig("pizza-day.yml")
+	conf, err := config.ReadConfig(".yml")
 	if err != nil {
 		panic(err)
 	}
