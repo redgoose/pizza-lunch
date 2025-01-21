@@ -4,7 +4,7 @@
 
 This tool takes an exported Excel document from [TDSB's SchoolCash Online](https://tdsb.schoolcashonline.com/) and generates a user friendly report for ordering and distribution of pizza to hungry students on pizza lunch day. It is used by school council members.
 
-![Sample PDF](docs/resources/pizza_.png)
+![Sample PDF](docs/resources/pizza_lunch.png)
 
 [View a sample PDF](https://github.com/redgoose/pizza-lunch/raw/main/docs/resources/pizza_lunch.pdf)
 
