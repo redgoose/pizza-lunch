@@ -17,7 +17,7 @@ func main() {
 }
 
 func execute() {
-	conf, err := config.ReadConfig(".yml")
+	conf, err := config.ReadConfig("pizza-lunch.yml")
 	if err != nil {
 		panic(err)
 	}
