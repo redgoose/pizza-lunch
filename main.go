@@ -57,12 +57,11 @@ func execute() {
 		}
 
 		// skip refunded orders
-		if row[8] == row[5] {
+		if row[7] == row[5] {
 			fmt.Printf("Skipping refunded order\n")
 			continue
 		}
-
-		order := order.ParseOrder(row[11])
+		order := order.ParseOrder(row[len(row)-1])
 		order.Name = row[1]
 
 		roomNumber := roomInfo[roomCode].Room

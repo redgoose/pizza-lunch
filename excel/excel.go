@@ -24,7 +24,7 @@ func ProcessFile(fileName string) ([][]string, error) {
 
 	re := regexp.MustCompile(`^\d+$`)
 
-	for _, row := range rows {
+	for i, row := range rows {
 		// skip rows that dont have a student number
 		if !(len(row) >= 2 && re.MatchString(row[1])) {
 			continue
@@ -38,6 +38,8 @@ func ProcessFile(fileName string) ([][]string, error) {
 			}
 			processedRow = append(processedRow, colCell)
 		}
+
+		processedRow = append(processedRow, rows[i+1][len(rows[i+1])-1])
 		processedRows = append(processedRows, processedRow)
 	}
 
